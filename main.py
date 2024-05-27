@@ -75,6 +75,7 @@ def generate_cnf(nv, nc):
 
 
 if __name__ == "__main__":
+
     # Example CNF: (x1 or ~x2 or x3) and (~x1 or x2 or x3) and (~x3 or ~x2 or ~x1)
     # clauses = [
     #     [1, -2, 3],
@@ -86,8 +87,11 @@ if __name__ == "__main__":
     num_vars = 5
     num_clauses = 5
     clauses = generate_cnf(num_vars, num_clauses)
+    print("------------------------------------------------------------------------")
     print("Generated clauses", clauses)
+    print("------------------------------------------------------------------------")
     result = is_satisfiable(clauses, num_vars)
+    print("------------------------------------------------------------------------")
 
     if result is not None:
         print("Satisfiable with assignment:", result)
