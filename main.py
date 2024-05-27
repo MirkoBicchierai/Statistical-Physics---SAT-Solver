@@ -1,3 +1,6 @@
+import random
+
+
 def simplify_formula(formula, variable, value):
     new_formula = []
     for clause in formula:
@@ -57,16 +60,35 @@ def is_satisfiable(c, n):
     return backtrack(c, variables, labeling)
 
 
+def generate_cnf(nv, nc):
+    cnf = []
+    for _ in range(nc):
+        clause_size = random.randint(1, nv)
+        clause = set()
+        while len(clause) < clause_size:
+            literal = random.randint(1, nv)
+            if random.choice([True, False]):
+                literal = -literal
+            clause.add(literal)
+        cnf.append(list(clause))
+    return cnf
+
+
 if __name__ == "__main__":
     # Example CNF: (x1 or ~x2 or x3) and (~x1 or x2 or x3) and (~x3 or ~x2 or ~x1)
-    clauses = [
-        [1, -2, 3],
-        [-1, 2, 3],
-        [3, -2, -1],
-    ]
-    num_vars = 3  # Number of variables: x1, x2, x3
+    # clauses = [
+    #     [1, -2, 3],
+    #     [-1, 2, 3],
+    #     [-3, -2, -1],
+    # ]
+    # num_vars = 3  # Number of variables: x1, x2, x3
 
+    num_vars = 5
+    num_clauses = 5
+    clauses = generate_cnf(num_vars, num_clauses)
+    print("Generated clauses", clauses)
     result = is_satisfiable(clauses, num_vars)
+
     if result is not None:
         print("Satisfiable with assignment:", result)
     else:
