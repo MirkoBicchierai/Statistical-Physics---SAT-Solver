@@ -17,8 +17,9 @@ def simplify_formula(formula, variable, value):
     return new_formula
 
 
-def backtrack(formula, variables, labeling):
-    print(f"Backtracking with formula: {formula}, variables: {variables}, labeling: {labeling}")
+def backtrack(formula, variables, labeling, debug):
+    if debug:
+        print(f"Backtracking with formula: {formula}, variables: {variables}, labeling: {labeling}")
 
     if not formula:
         return labeling  # Satisfiable
@@ -33,25 +34,27 @@ def backtrack(formula, variables, labeling):
     new_labeling = labeling.copy()
     new_labeling[variable] = True
     simplified_formula = simplify_formula(formula, variable, True)
-    print(f"Trying variable {variable} = True, simplified formula: {simplified_formula}")
+    if debug:
+        print(f"Trying variable {variable} = True, simplified formula: {simplified_formula}")
     if simplified_formula is not None:
-        result = backtrack(simplified_formula, remaining_variables, new_labeling)
+        result = backtrack(simplified_formula, remaining_variables, new_labeling, debug)
         if result is not None:
             return result
 
     # Try assigning False to the variable
     new_labeling[variable] = False
     simplified_formula = simplify_formula(formula, variable, False)
-    print(f"Trying variable {variable} = False, simplified formula: {simplified_formula}")
+    if debug:
+        print(f"Trying variable {variable} = False, simplified formula: {simplified_formula}")
     if simplified_formula is not None:
-        result = backtrack(simplified_formula, remaining_variables, new_labeling)
+        result = backtrack(simplified_formula, remaining_variables, new_labeling, debug)
         if result is not None:
             return result
 
     return None  # Unsatisfiable
 
 
-def is_satisfiable(c, n):
+def is_satisfiable(c, n, debug):
     variables = list(range(1, n + 1))
     labeling = {}
-    return backtrack(c, variables, labeling)
+    return backtrack(c, variables, labeling, debug)
