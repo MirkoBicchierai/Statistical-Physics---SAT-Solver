@@ -1,78 +1,5 @@
-import random
-
-
-def simplify_formula(formula, variable, value):
-    new_formula = []
-    for clause in formula:
-        if value:  # variable is set to True
-            if variable in clause:
-                continue  # Clause is satisfied, remove it
-            new_clause = [lit for lit in clause if lit != -variable]
-        else:  # variable is set to False
-            if -variable in clause:
-                continue  # Clause is satisfied, remove it
-            new_clause = [lit for lit in clause if lit != variable]
-
-        if not new_clause and new_clause != clause:
-            return None  # Clause becomes empty after simplification, unsatisfiable
-        new_formula.append(new_clause)
-
-    return new_formula
-
-
-def backtrack(formula, variables, labeling):
-    print(f"Backtracking with formula: {formula}, variables: {variables}, labeling: {labeling}")
-
-    if not formula:
-        return labeling  # Satisfiable
-    if any(not clause for clause in formula):
-        return None  # Unsatisfiable
-
-    # Choose an unassigned variable (heuristic can be improved)
-    variable = variables[0]
-    remaining_variables = variables[1:]
-
-    # Try assigning True to the variable
-    new_labeling = labeling.copy()
-    new_labeling[variable] = True
-    simplified_formula = simplify_formula(formula, variable, True)
-    print(f"Trying variable {variable} = True, simplified formula: {simplified_formula}")
-    if simplified_formula is not None:
-        result = backtrack(simplified_formula, remaining_variables, new_labeling)
-        if result is not None:
-            return result
-
-    # Try assigning False to the variable
-    new_labeling[variable] = False
-    simplified_formula = simplify_formula(formula, variable, False)
-    print(f"Trying variable {variable} = False, simplified formula: {simplified_formula}")
-    if simplified_formula is not None:
-        result = backtrack(simplified_formula, remaining_variables, new_labeling)
-        if result is not None:
-            return result
-
-    return None  # Unsatisfiable
-
-
-def is_satisfiable(c, n):
-    variables = list(range(1, n + 1))
-    labeling = {}
-    return backtrack(c, variables, labeling)
-
-
-def generate_cnf(nv, nc):
-    cnf = []
-    for _ in range(nc):
-        clause_size = random.randint(1, nv)
-        clause = set()
-        while len(clause) < clause_size:
-            literal = random.randint(1, nv)
-            if random.choice([True, False]):
-                literal = -literal
-            clause.add(literal)
-        cnf.append(list(clause))
-    return cnf
-
+from Generation_CNF import generate_cnf
+from SAT import is_satisfiable
 
 if __name__ == "__main__":
 
@@ -84,13 +11,13 @@ if __name__ == "__main__":
     # ]
     # num_vars = 3  # Number of variables: x1, x2, x3
 
-    num_vars = 5
-    num_clauses = 5
-    clauses = generate_cnf(num_vars, num_clauses)
+    n = 5
+    m = 50
+    clauses = generate_cnf(n, m)
     print("------------------------------------------------------------------------")
     print("Generated clauses", clauses)
     print("------------------------------------------------------------------------")
-    result = is_satisfiable(clauses, num_vars)
+    result = is_satisfiable(clauses, n)
     print("------------------------------------------------------------------------")
 
     if result is not None:
