@@ -1,3 +1,6 @@
+
+
+
 def simplify_formula(formula, variable, value):
     new_formula = []
     for clause in formula:
