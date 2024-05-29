@@ -56,6 +56,7 @@ if __name__ == "__main__":
     plt.xlim(1, 10)
     plt.xticks(range(1, 11, 1))
     plt.savefig('output/plt_prob.png')
+    plt.savefig('output/plt_prob.pdf')
 
     plt.close()
 
@@ -72,3 +73,4 @@ if __name__ == "__main__":
     plt.xlim(1, 10)
     plt.xticks(range(1, 11, 1))
     plt.savefig('output/plt_times.png')
+    plt.savefig('output/plt_times.pdf')
