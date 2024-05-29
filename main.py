@@ -8,6 +8,7 @@ debug = False
 
 
 def probability_test(n_var, num_c, n_test):
+    print("Analyzing N:", n_var)
     x = []
     y = []
     time = []
@@ -32,18 +33,18 @@ def probability_test(n_var, num_c, n_test):
 
 
 if __name__ == "__main__":
-    n_vars = [10, 20, 30]  # 10, 20 , 30, 40, 50
-    n_test = 50
+    n_vars = [10, 20, 30, 40, 50]
+    n_test = 300
     color = ['#440154', '#3b528b', '#21918c', '#5dc963', '#fde725']
     j = 0
     x_saved = []
     times_saved = []
     for var in n_vars:
-        num_c = np.arange(var, var * 10 + 1, 1)
+        num_c = np.arange(var, (var * 10) + 1, int(var / 10))
         x, y, times = probability_test(var, num_c, n_test)
         times_saved.append(times)
         x_saved.append(x)
-        plt.scatter(x, y, color=color[j], s=35, alpha=0.4, label="N = " + str(var))
+        plt.scatter(x, y, color=color[j], s=35, alpha=0.45, label="N = " + str(var))
         j = j + 1
 
     plt.title('Percent satisfiable')
@@ -51,13 +52,16 @@ if __name__ == "__main__":
     plt.ylabel('Percent satisfiable')
     plt.grid(True)
     plt.legend()
+    plt.ylim(0, 100)
+    plt.xlim(1, 10)
+    plt.xticks(range(1, 11, 1))
     plt.savefig('output/plt_prob.png')
 
     plt.close()
 
     j = 0
     for i in range(len(times_saved)):
-        plt.scatter(x_saved[i], times_saved[i], color=color[j], s=35, alpha=0.4, label="N = " + str(n_vars[i]))
+        plt.scatter(x_saved[i], times_saved[i], color=color[j], s=35, alpha=0.45, label="N = " + str(n_vars[i]))
         j = j + 1
 
     plt.title('Mean times execution')
@@ -65,4 +69,6 @@ if __name__ == "__main__":
     plt.ylabel('Mean times execution')
     plt.grid(True)
     plt.legend()
+    plt.xlim(1, 10)
+    plt.xticks(range(1, 11, 1))
     plt.savefig('output/plt_times.png')
