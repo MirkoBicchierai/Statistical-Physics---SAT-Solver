@@ -25,7 +25,6 @@ def probability_test(n_var, num_c, n_test, heuristic):
             t = t + (end - start)
             if result is not None:
                 sum = sum + 1
-                # print("Satisfiable with assignment:", result)
         print("Analyzed N:", n_var, "Ratio:", ratio, "Time:", t / n_test)
         time.append(t / n_test)
         y.append((sum / n_test) * 100)
@@ -57,7 +56,7 @@ def satisfiability_plot(n_var, num_c, n_test, heuristic):
 
 if __name__ == "__main__":
     n_vars = [10, 20, 30, 40, 50]
-    n_test = 200
+    n_test = 300
     color = ['#440154', '#3b528b', '#21918c', '#5dc963', '#fde725']
     j = 0
     x_saved = []
@@ -78,8 +77,12 @@ if __name__ == "__main__":
     plt.ylim(0, 100)
     plt.xlim(1, 9)
     plt.xticks(range(1, 10, 1))
-    plt.savefig('output/plt_prob.png')
-    plt.savefig('output/plt_prob.pdf')
+    if H:
+        plt.savefig('output/plt_prob.png')
+        plt.savefig('output/plt_prob.pdf')
+    else:
+        plt.savefig('output/plt_prob.png')
+        plt.savefig('output/plt_prob.pdf')
 
     plt.close()
 
@@ -95,8 +98,12 @@ if __name__ == "__main__":
     plt.legend()
     plt.xlim(1, 9)
     plt.xticks(range(1, 10, 1))
-    plt.savefig('output/plt_times.png')
-    plt.savefig('output/plt_times.pdf')
+    if H:
+        plt.savefig('output/plt_times.png')
+        plt.savefig('output/plt_times.pdf')
+    else:
+        plt.savefig('output/plt_times.png')
+        plt.savefig('output/plt_times.pdf')
 
     plt.close()
 
@@ -113,5 +120,10 @@ if __name__ == "__main__":
     plt.grid(True)
     plt.xlim(1, 9)
     plt.xticks(range(1, 10, 1))
-    plt.savefig('output/plt_sat.png')
-    plt.savefig('output/plt_sat.pdf')
+
+    if H:
+        plt.savefig('output/plt_sat_H.png')
+        plt.savefig('output/plt_sat_H.pdf')
+    else:
+        plt.savefig('output/plt_sat.png')
+        plt.savefig('output/plt_sat.pdf')
