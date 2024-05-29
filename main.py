@@ -8,14 +8,12 @@ debug = False
 
 
 def probability_test(n_var, num_c, n_test):
-    print("Analyzing N:", n_var)
     x = []
     y = []
     time = []
     for m in num_c:
         ratio = m / n_var
         x.append(ratio)
-        print(ratio)
         sum = 0
         t = 0
         for i in range(n_test):
@@ -27,6 +25,7 @@ def probability_test(n_var, num_c, n_test):
             if result is not None:
                 sum = sum + 1
                 # print("Satisfiable with assignment:", result)
+        print("Analyzed N:", n_var, "Ratio:", ratio, "Time:", t / n_test)
         time.append(t / n_test)
         y.append((sum / n_test) * 100)
     return x, y, time
@@ -34,17 +33,17 @@ def probability_test(n_var, num_c, n_test):
 
 if __name__ == "__main__":
     n_vars = [10, 20, 30, 40, 50]
-    n_test = 300
+    n_test = 200
     color = ['#440154', '#3b528b', '#21918c', '#5dc963', '#fde725']
     j = 0
     x_saved = []
     times_saved = []
     for var in n_vars:
-        num_c = np.arange(var, (var * 10) + 1, int(var / 10))
+        num_c = np.arange(var, (var * 9) + 1, int(var / 10))
         x, y, times = probability_test(var, num_c, n_test)
         times_saved.append(times)
         x_saved.append(x)
-        plt.scatter(x, y, color=color[j], s=35, alpha=0.45, label="N = " + str(var))
+        plt.scatter(x, y, color=color[j], s=30, alpha=0.45, label="N = " + str(var))
         j = j + 1
 
     plt.title('Percent satisfiable')
@@ -62,7 +61,7 @@ if __name__ == "__main__":
 
     j = 0
     for i in range(len(times_saved)):
-        plt.scatter(x_saved[i], times_saved[i], color=color[j], s=35, alpha=0.45, label="N = " + str(n_vars[i]))
+        plt.scatter(x_saved[i], times_saved[i], color=color[j], s=30, alpha=0.45, label="N = " + str(n_vars[i]))
         j = j + 1
 
     plt.title('Mean times execution')
