@@ -4,9 +4,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from timeit import default_timer as timer
 
-debug = False
-H = False
-
 
 def probability_test(n_var, num_c, n_test, heuristic):
     x = []
@@ -55,75 +52,109 @@ def satisfiability_plot(n_var, num_c, n_test, heuristic):
 
 
 if __name__ == "__main__":
-    n_vars = [10, 20, 30, 40, 50]
-    n_test = 300
-    color = ['#440154', '#3b528b', '#21918c', '#5dc963', '#fde725']
-    j = 0
-    x_saved = []
-    times_saved = []
-    for var in n_vars:
-        num_c = np.arange(var, (var * 9) + 1, int(var / 10))
-        x, y, times = probability_test(var, num_c, n_test, H)
-        times_saved.append(times)
-        x_saved.append(x)
-        plt.scatter(x, y, color=color[j], s=30, alpha=0.45, label="N = " + str(var))
-        j = j + 1
 
-    plt.title('Percent satisfiable')
-    plt.xlabel('Ratio Test M/N')
-    plt.ylabel('Percent satisfiable')
-    plt.grid(True)
-    plt.legend()
-    plt.ylim(0, 100)
-    plt.xlim(1, 9)
-    plt.xticks(range(1, 10, 1))
+    debug = False
+    H = False
+
     if H:
-        plt.savefig('output/plt_prob.png')
-        plt.savefig('output/plt_prob.pdf')
+        n_vars = [10, 20, 30, 40, 50]
+        n_test = 300
+        test_var = 50
     else:
-        plt.savefig('output/plt_prob.png')
-        plt.savefig('output/plt_prob.pdf')
+        n_vars = [10, 20, 30, 40]
+        n_test = 100
+        test_var = 40
 
-    plt.close()
+    color = ["#e41a1c", "#377eb8", "#4daf4a", "#984ea3", "#ff7f00"]
 
-    j = 0
-    for i in range(len(times_saved)):
-        plt.scatter(x_saved[i], times_saved[i], color=color[j], s=30, alpha=0.45, label="N = " + str(n_vars[i]))
-        j = j + 1
+    point_x_ratio = 50
 
-    plt.title('Mean times execution')
-    plt.xlabel('Ratio Test M/N')
-    plt.ylabel('Mean times execution')
-    plt.grid(True)
-    plt.legend()
-    plt.xlim(1, 9)
-    plt.xticks(range(1, 10, 1))
-    if H:
-        plt.savefig('output/plt_times.png')
-        plt.savefig('output/plt_times.pdf')
-    else:
-        plt.savefig('output/plt_times.png')
-        plt.savefig('output/plt_times.pdf')
+    prob_plot = False
+    satis_plot = True
 
-    plt.close()
+    if prob_plot:
+        j = 0
+        x_saved = []
+        times_saved = []
+        for var in n_vars:
+            num_c = np.arange(var, (var * 9) + 1, int(var / 10))
+            x, y, times = probability_test(var, num_c, n_test, H)
+            times_saved.append(times)
+            x_saved.append(x)
+            plt.scatter(x, y, color=color[j], s=25, alpha=0.5, label="N = " + str(var))
+            j = j + 1
 
-    x, y, c = satisfiability_plot(30, np.arange(30, (30 * 9) + 1, int(30 / 10)), 100, H)
-
-    for i in range(len(x)):
-        if c[i] == 1:
-            plt.scatter(x[i], y[i], color="Blue", s=18, alpha=0.50)
+        if H:
+            plt.title('Percent satisfiable with Heuristic')
         else:
-            plt.scatter(x[i], y[i], color="Red", s=18, alpha=0.45)
+            plt.title('Percent satisfiable without Heuristic')
 
-    plt.xlabel('Ratio Test M/N')
-    plt.ylabel('Mean times execution')
-    plt.grid(True)
-    plt.xlim(1, 9)
-    plt.xticks(range(1, 10, 1))
+        plt.xlabel('Ratio Test M/N')
+        plt.ylabel('Percent satisfiable')
+        plt.grid(True)
+        plt.legend()
+        plt.ylim(0, 100)
+        plt.xlim(1, 9)
+        plt.xticks(range(1, 10, 1))
+        if H:
+            plt.savefig('output/plt_prob_H.png')
+            plt.savefig('output/plt_prob_H.pdf')
+        else:
+            plt.savefig('output/plt_prob.png')
+            plt.savefig('output/plt_prob.pdf')
 
-    if H:
-        plt.savefig('output/plt_sat_H.png')
-        plt.savefig('output/plt_sat_H.pdf')
-    else:
-        plt.savefig('output/plt_sat.png')
-        plt.savefig('output/plt_sat.pdf')
+        plt.close()
+
+        j = 0
+        for i in range(len(times_saved)):
+            plt.scatter(x_saved[i], times_saved[i], color=color[j], s=25, alpha=0.5, label="N = " + str(n_vars[i]))
+            j = j + 1
+
+        if H:
+            plt.title('Mean execution times with Heuristic')
+        else:
+            plt.title('Mean execution times without Heuristic')
+
+        plt.xlabel('Ratio Test M/N')
+        plt.ylabel('Mean execution times')
+        plt.grid(True)
+        plt.legend()
+        plt.xlim(1, 9)
+        plt.xticks(range(1, 10, 1))
+        if H:
+            plt.savefig('output/plt_times_H.png')
+            plt.savefig('output/plt_times_H.pdf')
+        else:
+            plt.savefig('output/plt_times.png')
+            plt.savefig('output/plt_times.pdf')
+
+        plt.close()
+
+    if satis_plot:
+
+        x, y, c = satisfiability_plot(test_var, np.arange(test_var, (test_var * 9) + 1, int(test_var / 10)),
+                                      point_x_ratio, H)
+
+        for i in range(len(x)):
+            if c[i] == 1:
+                plt.scatter(x[i], y[i], color="royalblue", s=18, alpha=0.60)
+            else:
+                plt.scatter(x[i], y[i], color="orangered", s=18, alpha=0.60)
+
+        if H:
+            plt.title('Execution time N = ' + str(test_var) + " with Heuristic")
+        else:
+            plt.title('Execution time N = ' + str(test_var) + " without Heuristic")
+
+        plt.xlabel('Ratio Test M/N')
+        plt.ylabel('Execution time')
+        plt.grid(True)
+        plt.xlim(1, 9)
+        plt.xticks(range(1, 10, 1))
+
+        if H:
+            plt.savefig('output/plt_sat_H.png')
+            plt.savefig('output/plt_sat_H.pdf')
+        else:
+            plt.savefig('output/plt_sat.png')
+            plt.savefig('output/plt_sat.pdf')
