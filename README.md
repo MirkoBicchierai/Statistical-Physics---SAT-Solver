@@ -3,7 +3,7 @@ University Exam of Statistical Physics UNIFI, Implementation of a SAT Solver to 
 
 A project report in Italian is available here: https://www.overleaf.com/read/qcpqptpgcrqr#e26ea0
 
-# First experiment: Satisfiability:
+# First experiment: Satisfiability
 
 <table>
  <tr>
@@ -12,7 +12,7 @@ A project report in Italian is available here: https://www.overleaf.com/read/qcp
  </tr>
 </table>
 
-#  Second and Third experiment: Percentege of satisfiability and Execution time:
+#  Second and Third experiment: Percentege of satisfiability and Execution time
 
 In the first case, we present the results of a SAT solver without heuristics.
 
