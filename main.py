@@ -54,7 +54,7 @@ def satisfiability_plot(n_var, num_c, n_test, heuristic):
 if __name__ == "__main__":
 
     debug = False
-    H = False
+    H = True
 
     if H:
         n_vars = [10, 20, 30, 40, 50]
@@ -69,8 +69,8 @@ if __name__ == "__main__":
 
     point_x_ratio = 50
 
-    prob_plot = False
-    satis_plot = True
+    prob_plot = True
+    satis_plot = False
 
     if prob_plot:
         j = 0
